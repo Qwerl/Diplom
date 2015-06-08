@@ -41,7 +41,7 @@ void loop() {
     } else {
         notWork();
     }
-    
+
     delay(1000);
 }
 
