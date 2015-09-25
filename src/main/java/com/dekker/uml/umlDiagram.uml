@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="-371.24749163879596" y="4.74581939799333">com.dekker.view.swing.MyLoggerPanel</node>
+    <node x="0.0" y="0.0">com.dekker.model.ThreadStarter</node>
+    <node x="-330.8361204013377" y="327.02508361204013">com.dekker.model.Command</node>
+    <node x="367.0" y="0.0">com.dekker.controller.ControlPanel</node>
+    <node x="57.15551839464888" y="406.5685618729097">com.dekker.model.ThreadsFactory</node>
+    <node x="427.0484949832777" y="374.68227424749165">com.dekker.view.swing.MainFrame</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.dekker.model.ThreadStarter" target="com.dekker.view.swing.MyLoggerPanel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.dekker.model.ThreadStarter" target="com.dekker.model.Command">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.dekker.view.swing.MainFrame" target="com.dekker.controller.ControlPanel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.dekker.view.swing.MyLoggerPanel" target="com.dekker.model.ThreadStarter">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.dekker.model.ThreadsFactory" target="com.dekker.view.swing.MyLoggerPanel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.dekker.model.ThreadsFactory" target="com.dekker.model.ThreadStarter">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.dekker.controller.ControlPanel" target="com.dekker.model.ThreadsFactory">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8781204111600588" x="350.7015050167223" y="330.5" />
+  <SelectedNodes>
+    <node>com.dekker.view.swing.MainFrame</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

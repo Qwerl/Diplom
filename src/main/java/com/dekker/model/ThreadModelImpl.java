@@ -20,6 +20,7 @@ public class ThreadModelImpl implements ThreadModel{
     public void addThread(int priority, ThreadObserver observer) {
         ThreadStarter newThread = factory.newThreadStarter(priority);
         newThread.addObserver(observer);
+        newThread.setResource(resource);
         threadList.add(newThread);
     }
 
