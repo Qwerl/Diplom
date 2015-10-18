@@ -26,64 +26,64 @@ public class ThreadView {
     }
 
     /**
-     * Создать форму выбора режима моделирования:
-     * 1) пошагово
-     * 2) в реальном времени
+     * РЎРѕР·РґР°С‚СЊ С„РѕСЂРјСѓ РІС‹Р±РѕСЂР° СЂРµР¶РёРјР° РјРѕРґРµР»РёСЂРѕРІР°РЅРёСЏ:
+     * 1) РїРѕС€Р°РіРѕРІРѕ
+     * 2) РІ СЂРµР°Р»СЊРЅРѕРј РІСЂРµРјРµРЅРё
      */
     public void createModeChoseView() {
         mainFrame = new MainFrame(this);
     }
 
     /**
-     * Выбрать режим пошагового исследования
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј РїРѕС€Р°РіРѕРІРѕРіРѕ РёСЃСЃР»РµРґРѕРІР°РЅРёСЏ
      */
     public void researchByStepSelected() {
         controller.researchByStep();
     }
 
     /**
-     * Выбрать режим исследования в реальном времени
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј РёСЃСЃР»РµРґРѕРІР°РЅРёСЏ РІ СЂРµР°Р»СЊРЅРѕРј РІСЂРµРјРµРЅРё
      */
     public void researchByRealTimeSelected() {
         controller.researchByRealTime();
     }
 
     /**
-     * Создать форму выбора режим типа ресурса:
-     * 1) пустой ресурс
-     * 2) ПлатаРесурс
+     * РЎРѕР·РґР°С‚СЊ С„РѕСЂРјСѓ РІС‹Р±РѕСЂР° СЂРµР¶РёРј С‚РёРїР° СЂРµСЃСѓСЂСЃР°:
+     * 1) РїСѓСЃС‚РѕР№ СЂРµСЃСѓСЂСЃ
+     * 2) РџР»Р°С‚Р°Р РµСЃСѓСЂСЃ
      */
     public void createModellingTypeChoseView() {
         modellingTypeChoseFrame = new ModellingTypeChoseFrame();
     }
 
     /**
-     * Выбрать режим без ресурса
-     * ресурс заменяется задержкой времени
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј Р±РµР· СЂРµСЃСѓСЂСЃР°
+     * СЂРµСЃСѓСЂСЃ Р·Р°РјРµРЅСЏРµС‚СЃСЏ Р·Р°РґРµСЂР¶РєРѕР№ РІСЂРµРјРµРЅРё
      */
     public void modellingWithoutResourceSelected() {
         controller.researchWithEmptyResource();
     }
 
     /**
-     * Выбрать режим с ресурсом
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј СЃ СЂРµСЃСѓСЂСЃРѕРј
      */
     public void modellingWithResourceSelected() {
         controller.researchWithArduinoResource();
     }
 
     /**
-     * Создать форму с выбором устройства и порта к которому оно подключено
-     * @param boards список устройств
+     * РЎРѕР·РґР°С‚СЊ С„РѕСЂРјСѓ СЃ РІС‹Р±РѕСЂРѕРј СѓСЃС‚СЂРѕР№СЃС‚РІР° Рё РїРѕСЂС‚Р° Рє РєРѕС‚РѕСЂРѕРјСѓ РѕРЅРѕ РїРѕРґРєР»СЋС‡РµРЅРѕ
+     * @param boards СЃРїРёСЃРѕРє СѓСЃС‚СЂРѕР№СЃС‚РІ
      */
     public void createBoardTypeAndPortNameChoseView(List<Board> boards, List<String> ports) {
         boardTypeAndPortNameChoseFrame = new BoardTypeAndPortNameChoseFrame();
     }
 
     /**
-     * Выбрать устройство
-     * @param boardType тип устройства
-     * @param portName порт устройства
+     * Р’С‹Р±СЂР°С‚СЊ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ
+     * @param boardType С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
+     * @param portName РїРѕСЂС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°
      */
     public void boardSelected(Class boardType, String portName)  {
         controller.setBoardInfo(boardType, portName);
