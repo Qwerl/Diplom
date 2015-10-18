@@ -1,5 +1,5 @@
-import com.MicrocontrollerBoard.ArduinoWithoutLcd;
-import com.MicrocontrollerBoard.SerialPortFacade;
+import com.board.ArduinoWithoutLcd;
+import com.board.SerialPortFacade;
 
 public class testSketch2 {
 

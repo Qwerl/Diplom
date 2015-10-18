@@ -1,13 +1,13 @@
-import com.MicrocontrollerBoard.ArduinoWithLcd;
-import com.MicrocontrollerBoard.BoardWithLcd;
-import com.MicrocontrollerBoard.SerialPortFacade;
+import com.board.Arduino;
+import com.board.Board;
+import com.board.SerialPortFacade;
 
 public class testConnection {
     public static void main(String[] args) {
         SerialPortFacade port = null;
         try {
             port = new SerialPortFacade(9600, 1000, "COM4");
-            BoardWithLcd board = new ArduinoWithLcd(port);
+            Board board = new Arduino(port);
             board.sendMessage("hi");
             while(true) {
                 Thread.sleep(1000);

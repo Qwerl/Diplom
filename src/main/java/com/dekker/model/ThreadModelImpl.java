@@ -33,11 +33,11 @@ public class ThreadModelImpl implements ThreadModel{
     }
 
     public void addObserver() {
-    //todo
+        //todo
     }
 
     public void removeObserver() {
-    //todo
+        //todo
     }
 
 }

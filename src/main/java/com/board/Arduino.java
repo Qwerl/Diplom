@@ -1,8 +1,8 @@
-package com.MicrocontrollerBoard;
+package com.board;
 
 import java.io.*;
 
-public class ArduinoWithLcd implements BoardWithLcd {
+public class Arduino implements Board {
 
     public static final int LCD_WIDTH = 16;
     public static final int LCD_HEIGHT = 2;
@@ -10,7 +10,7 @@ public class ArduinoWithLcd implements BoardWithLcd {
     private InputStream input;
     private OutputStream output;
 
-    public ArduinoWithLcd(SerialPortFacade serialPort) throws IOException {
+    public Arduino(SerialPortFacade serialPort) throws IOException {
         input = serialPort.getInput();
         output = serialPort.getOutput();
     }

@@ -1,10 +1,10 @@
-package com.MicrocontrollerBoard;
+package com.board;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class ArduinoWithoutLcd implements BoardWithLcd {
+public class ArduinoWithoutLcd implements Board {
 
     private InputStream input;
     private OutputStream output;

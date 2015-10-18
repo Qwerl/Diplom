@@ -1,8 +1,8 @@
-package com.MicrocontrollerBoard;
+package com.board;
 
 import java.io.IOException;
 
-public interface BoardWithLcd {
+public interface Board {
 
     /**
      * Возвращает:

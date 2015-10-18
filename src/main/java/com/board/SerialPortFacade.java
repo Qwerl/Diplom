@@ -1,4 +1,4 @@
-package com.MicrocontrollerBoard;
+package com.board;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
