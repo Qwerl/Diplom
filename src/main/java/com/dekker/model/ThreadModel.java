@@ -12,4 +12,6 @@ public interface ThreadModel {
 
     void removeObserver();
     void addObserver();
+
+    void setMode(Mode mode);
 }

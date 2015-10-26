@@ -2,7 +2,7 @@ package com.dekker.model;
 
 import com.dekker.model.resource.Resource;
 
-public class ThreadModelImpl implements ThreadModel{
+public class ThreadModelImpl implements ThreadModel {
 
     private ThreadList threadList = new ThreadList();
 
@@ -33,6 +33,10 @@ public class ThreadModelImpl implements ThreadModel{
     }
 
     public void addObserver() {
+        //todo
+    }
+
+    public void setMode(Mode mode) {
         //todo
     }
 

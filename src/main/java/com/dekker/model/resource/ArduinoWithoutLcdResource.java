@@ -1,6 +1,7 @@
 package com.dekker.model.resource;
 
 import com.board.ArduinoWithoutLcd;
+import com.board.Board;
 import com.board.SerialPortFacade;
 
 public class ArduinoWithoutLcdResource implements BoardResource {
@@ -19,19 +20,19 @@ public class ArduinoWithoutLcdResource implements BoardResource {
 
     public void work(int threadId) throws Exception {
         switch (threadId) {
-            case 0 :
+            case 0:
                 board.setPin8On();
                 break;
-            case 1 :
+            case 1:
                 board.setPin9On();
                 break;
-            case 2 :
+            case 2:
                 board.setPin10On();
                 break;
-            case 3 :
+            case 3:
                 board.setPin11On();
                 break;
-            case 4 :
+            case 4:
                 board.setPin12On();
                 break;
             default:
@@ -40,4 +41,19 @@ public class ArduinoWithoutLcdResource implements BoardResource {
         }
     }
 
+    public String getPortName() {
+        return port.getPortName();
+    }
+
+    public void setPortName(String portName) {
+        //TODO
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = (ArduinoWithoutLcd) board;
+    }
 }

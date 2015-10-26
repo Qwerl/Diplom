@@ -84,6 +84,10 @@ public class SerialPortFacade implements SerialPortEventListener{
         return serialPort.getOutputStream();
     }
 
+    public String getPortName() {
+        return serialPort.getName();
+    }
+
     /**
      * Вызвать для закрытия порта
      */

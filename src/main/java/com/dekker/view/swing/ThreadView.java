@@ -1,9 +1,12 @@
 package com.dekker.view.swing;
 
 import com.board.Board;
+import com.board.BoardType;
 import com.dekker.controller.ThreadController;
 import com.dekker.controller.ThreadSwingController;
+import com.dekker.model.Mode;
 import com.dekker.model.ThreadModel;
+import com.dekker.model.resource.ResourceType;
 
 import java.awt.*;
 import java.util.List;
@@ -17,8 +20,10 @@ public class ThreadView {
     private Frame controlFrame;
     private Frame logerFrame;
 
-    private ModellingTypeChoseFrame modellingTypeChoseFrame;
+    private ModeChoseFrame modeChoseFrame;
+    private ResourceTypeChoseFrame resourceTypeChoseFrame;
     private BoardTypeAndPortNameChoseFrame boardTypeAndPortNameChoseFrame;
+
 
     public ThreadView(ThreadSwingController controller, ThreadModel model) {
         this.model = model;
@@ -26,67 +31,74 @@ public class ThreadView {
     }
 
     /**
-     * Создать форму выбора режима моделирования:
-     * 1) пошагово
-     * 2) в реальном времени
+     * РЎРѕР·РґР°С‚СЊ С„РѕСЂРјСѓ РІС‹Р±РѕСЂР° СЂРµР¶РёРјР° РјРѕРґРµР»РёСЂРѕРІР°РЅРёСЏ:
+     * 1) РїРѕС€Р°РіРѕРІРѕ
+     * 2) РІ СЂРµР°Р»СЊРЅРѕРј РІСЂРµРјРµРЅРё
      */
     public void createModeChoseView() {
-        mainFrame = new MainFrame(this);
+        modeChoseFrame = new ModeChoseFrame(Mode.values(), this);
+    }
+
+    public void modeSelected(Mode mode) {
+        if (mode.equals(Mode.REAL_TIME)) {
+            researchByRealTimeSelected();
+        } else if (mode.equals(Mode.STEP_BY_STEP)) {
+            researchByStepSelected();
+        }
     }
 
     /**
-     * Выбрать режим пошагового исследования
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј РїРѕС€Р°РіРѕРІРѕРіРѕ РёСЃСЃР»РµРґРѕРІР°РЅРёСЏ
      */
     public void researchByStepSelected() {
         controller.researchByStep();
     }
 
     /**
-     * Выбрать режим исследования в реальном времени
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј РёСЃСЃР»РµРґРѕРІР°РЅРёСЏ РІ СЂРµР°Р»СЊРЅРѕРј РІСЂРµРјРµРЅРё
      */
     public void researchByRealTimeSelected() {
         controller.researchByRealTime();
     }
 
     /**
-     * Создать форму выбора режим типа ресурса:
-     * 1) пустой ресурс
-     * 2) ПлатаРесурс
+     * РЎРѕР·РґР°С‚СЊ С„РѕСЂРјСѓ РІС‹Р±РѕСЂР° СЂРµР¶РёРј С‚РёРїР° СЂРµСЃСѓСЂСЃР°:
+     * 1) РїСѓСЃС‚РѕР№ СЂРµСЃСѓСЂСЃ
+     * 2) РџР»Р°С‚Р°Р РµСЃСѓСЂСЃ
      */
-    public void createModellingTypeChoseView() {
-        modellingTypeChoseFrame = new ModellingTypeChoseFrame();
+    public void createResourceTypeChoseView() {
+        resourceTypeChoseFrame = new ResourceTypeChoseFrame(ResourceType.values());
     }
 
     /**
-     * Выбрать режим без ресурса
-     * ресурс заменяется задержкой времени
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј Р±РµР· СЂРµСЃСѓСЂСЃР°
+     * СЂРµСЃСѓСЂСЃ Р·Р°РјРµРЅСЏРµС‚СЃСЏ Р·Р°РґРµСЂР¶РєРѕР№ РІСЂРµРјРµРЅРё
      */
     public void modellingWithoutResourceSelected() {
         controller.researchWithEmptyResource();
     }
 
     /**
-     * Выбрать режим с ресурсом
+     * Р’С‹Р±СЂР°С‚СЊ СЂРµР¶РёРј СЃ СЂРµСЃСѓСЂСЃРѕРј
      */
-    public void modellingWithResourceSelected() {
-        controller.researchWithArduinoResource();
+    public void modellingWithResourceSelected(String portName) throws Exception {
+        controller.researchWithArduinoResource(portName); //todo resource chosing
     }
 
     /**
-     * Создать форму с выбором устройства и порта к которому оно подключено
-     * @param boards список устройств
+     * РЎРѕР·РґР°С‚СЊ С„РѕСЂРјСѓ СЃ РІС‹Р±РѕСЂРѕРј СѓСЃС‚СЂРѕР№СЃС‚РІР° Рё РїРѕСЂС‚Р° Рє РєРѕС‚РѕСЂРѕРјСѓ РѕРЅРѕ РїРѕРґРєР»СЋС‡РµРЅРѕ
+     * @param boards СЃРїРёСЃРѕРє СѓСЃС‚СЂРѕР№СЃС‚РІ
      */
     public void createBoardTypeAndPortNameChoseView(List<Board> boards, List<String> ports) {
         boardTypeAndPortNameChoseFrame = new BoardTypeAndPortNameChoseFrame();
     }
 
     /**
-     * Выбрать устройство
-     * @param boardType тип устройства
-     * @param portName порт устройства
+     * Р’С‹Р±СЂР°С‚СЊ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ
+     * @param boardType С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
+     * @param portName РїРѕСЂС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°
      */
-    public void boardSelected(Class boardType, String portName)  {
+    public void boardSelected(BoardType boardType, String portName) throws InstantiationException, IllegalAccessException {
         controller.setBoardInfo(boardType, portName);
     }
-
 }
