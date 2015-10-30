@@ -41,6 +41,7 @@ public class ThreadSwingController implements ThreadController {
      * вместо взаимодействия с ресурсом вставляется определенная задержка
      */
     public void researchWithEmptyResource() {
+        System.out.println("исследования с пустым ресурсом начать");
         model.setResource(new EmptyResource(100)); //todo вставить пустой ресурс
         //view.; //todo начать исследования, вызвать форму
     }

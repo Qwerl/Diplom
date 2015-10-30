@@ -1,10 +1,16 @@
+package gui;
+
+import com.dekker.controller.ThreadController;
 import com.dekker.controller.ThreadSwingController;
-import com.dekker.model.Mode;
+import com.dekker.model.ThreadModel;
 import com.dekker.model.ThreadModelImpl;
-import com.dekker.view.swing.ModeChoseFrame;
-import com.dekker.view.swing.ThreadView;
 
 public class FrameTest {
+
+    private ThreadModel model = new ThreadModelImpl();
+    private ThreadController controller = new ThreadSwingController(model);
+
+
 //    @Test
 //    public void modeChoseFrame() {
 //        ModeChoseFrame frame = new ModeChoseFrame(Mode.values());
@@ -14,6 +20,7 @@ public class FrameTest {
 //    }
 
     public static void main(String[] args) {
-        new ModeChoseFrame(Mode.values(), new ThreadView(new ThreadSwingController(new ThreadModelImpl()),new ThreadModelImpl()));
+        new FrameTest();
+        //new ModeChoseFrame(Mode.values(), new ThreadView(new ThreadSwingController(new ThreadModelImpl()),new ThreadModelImpl()));
     }
 }

@@ -44,16 +44,6 @@ public class ModeChoseFrame {
     private void returnMode(Mode mode) {
         threadView.modeSelected(mode);
         modeChoseFrame.dispose();
-        modeChoseFrame.dispose();
-//        modeChoseFrame.repaint();
     }
 
-    public String getInfo() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Выбор режима моделирования:");
-        for (Mode mode : Mode.values()) {
-            builder.append(mode + " ");
-        }
-        return builder.toString();
-    }
 }

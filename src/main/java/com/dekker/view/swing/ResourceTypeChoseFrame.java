@@ -2,11 +2,49 @@ package com.dekker.view.swing;
 
 import com.dekker.model.resource.ResourceType;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class ResourceTypeChoseFrame {
 
-    ResourceType[] types;
+    private ThreadView threadView;
+    private ResourceType[] types;
+    private JFrame frame;
+    private JPanel panel;
 
-    public ResourceTypeChoseFrame(ResourceType[] types) {
-
+    public ResourceTypeChoseFrame(ResourceType[] types, ThreadView threadView) {
+        this.types = types;
+        this.threadView = threadView;
+        init();
     }
+
+    private void init() {
+        frame = new JFrame("Выбор ресурса");
+        panel = new JPanel(new GridLayout(0, 1));
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        for (final ResourceType type : types) {
+            JButton button = new JButton(type.name());
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    returnResourceType(type);
+                    frame.dispose();
+                }
+            });
+            panel.add(button);
+        }
+        frame.setMinimumSize(new Dimension(300, 300));
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void returnResourceType(ResourceType type) {
+        try {
+            threadView.resourceSelected(type);
+        } catch (Exception ignore) { /*NOP*/ }
+    }
+
 }

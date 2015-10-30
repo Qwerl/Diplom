@@ -67,7 +67,15 @@ public class ThreadView {
      * 2) ПлатаРесурс
      */
     public void createResourceTypeChoseView() {
-        resourceTypeChoseFrame = new ResourceTypeChoseFrame(ResourceType.values());
+        resourceTypeChoseFrame = new ResourceTypeChoseFrame(ResourceType.values(), this);
+    }
+
+    public void resourceSelected(ResourceType type) throws Exception {
+        if (type.equals(ResourceType.EMPTY)) {
+            modellingWithoutResourceSelected();
+        } else if (type.equals(ResourceType.BOARD)) {
+            modellingWithResourceSelected("COM3"); //todo получить название порта
+        }
     }
 
     /**
