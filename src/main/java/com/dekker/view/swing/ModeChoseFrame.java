@@ -5,8 +5,6 @@ import com.dekker.model.Mode;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ModeChoseFrame {
 
@@ -27,12 +25,8 @@ public class ModeChoseFrame {
         panel.setLayout(new GridLayout(0, 1));
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         for (final Mode mode : modes) {
-            JButton button = new JButton(mode.name());
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    returnMode(mode);
-                }
-            });
+            JButton button = new JButton(mode.getValue());
+            button.addActionListener(e -> returnMode(mode));
             panel.add(button);
         }
         modeChoseFrame.setMinimumSize(new Dimension(300, 300));

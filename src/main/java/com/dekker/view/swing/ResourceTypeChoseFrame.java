@@ -5,8 +5,6 @@ import com.dekker.model.resource.ResourceType;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ResourceTypeChoseFrame {
 
@@ -26,12 +24,10 @@ public class ResourceTypeChoseFrame {
         panel = new JPanel(new GridLayout(0, 1));
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         for (final ResourceType type : types) {
-            JButton button = new JButton(type.name());
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    returnResourceType(type);
-                    frame.dispose();
-                }
+            JButton button = new JButton(type.getValue());
+            button.addActionListener(e -> {
+                returnResourceType(type);
+                frame.dispose();
             });
             panel.add(button);
         }

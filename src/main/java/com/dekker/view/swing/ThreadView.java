@@ -9,6 +9,7 @@ import com.dekker.model.ThreadModel;
 import com.dekker.model.resource.ResourceType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +25,7 @@ public class ThreadView {
     private ResourceTypeChoseFrame resourceTypeChoseFrame;
     private BoardTypeAndPortNameChoseFrame boardTypeAndPortNameChoseFrame;
 
+    private List<LoggerView> loggers = new ArrayList<>();
 
     public ThreadView(ThreadSwingController controller, ThreadModel model) {
         this.model = model;
@@ -95,6 +97,7 @@ public class ThreadView {
 
     /**
      * Создать форму с выбором устройства и порта к которому оно подключено
+     *
      * @param boards список устройств
      */
     public void createBoardTypeAndPortNameChoseView(List<Board> boards, List<String> ports) {
@@ -103,10 +106,25 @@ public class ThreadView {
 
     /**
      * Выбрать устройство
+     *
      * @param boardType тип устройства
-     * @param portName порт устройства
+     * @param portName  порт устройства
      */
     public void boardSelected(BoardType boardType, String portName) throws InstantiationException, IllegalAccessException {
         controller.setBoardInfo(boardType, portName);
+    }
+
+    public void createControlPanelView() {
+        new ControlPanelView(controller);
+    }
+
+    public LoggerView createLoggerView(int threadId) {
+        LoggerView logger = new LoggerView(controller, threadId);
+        loggers.add(logger);
+        return logger;
+    }
+
+    public void cleanLoggers() {
+        loggers.forEach(LoggerView::cleanLogger);
     }
 }
