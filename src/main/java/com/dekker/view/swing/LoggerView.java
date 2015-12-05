@@ -40,56 +40,54 @@ public class LoggerView implements ThreadObserver {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocation(new Random().nextInt(1000), new Random().nextInt(500));
         frame.setMinimumSize(new Dimension(width, height));
-
-        panel = new JPanel();
-        panel.setBackground(Color.black);
-        panel.setLayout(new GridLayout(1, 2));
-//        panel.setLayout(new FlowLayout(FlowLayout.LEADING));
-
-
-        textArea = new JTextArea();
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        panel.add(scrollPane);
-
-        frame.add(panel);
-        frame.setVisible(true);
-
+        frame.setLayout(new GridLayout(1, 1));
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 closeFrame();
                 super.windowClosed(e);
             }
         });
+
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
         buttonInit();
+
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
     public JFrame getFrame() {
         return frame;
     }
 
-    private void buttonInit() {
+    protected void buttonInit() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(0, 1)); //todo вернуть гвозди
+        buttonPanel.setLayout(new GridLayout(0, 1));
 
         JButton buttonStart = new JButton();
         buttonStart.setText("+flag");
         buttonStart.addActionListener(e -> controller.setCommand(id, Command.START));
         buttonPanel.add(buttonStart);
 
-        JButton buttonWork = new JButton();
-        buttonWork.setText("work");
-        buttonWork.addActionListener(e ->
-                controller.setCommand(id, Command.START_WORK));
-        buttonPanel.add(buttonWork);
-
         JButton buttonNeedRes = new JButton();
         buttonNeedRes.setText("needRes");
         buttonNeedRes.addActionListener(e ->
                 controller.setCommand(id, Command.REQUEST_RESOURCE));
         buttonPanel.add(buttonNeedRes);
+
+        JButton buttonWork = new JButton();
+        buttonWork.setText("work");
+        buttonWork.addActionListener(e ->
+                controller.setCommand(id, Command.START_WORK));
+        buttonPanel.add(buttonWork);
 
         JButton buttonEndWork = new JButton();
         buttonEndWork.setText("end");
@@ -103,21 +101,19 @@ public class LoggerView implements ThreadObserver {
                 controller.setCommand(id, Command.EXIT_FROM_CRITICAL_ZONE));
         buttonPanel.add(buttonExitCriticalZone);
 
-        JButton buttonExit = new JButton();
-        buttonExit.setText("exit");
-        buttonExit.addActionListener(e ->
-                controller.setCommand(id, Command.EXIT));
-        buttonPanel.add(buttonExit);
-
         JButton buttonRun = new JButton();
         buttonRun.setText("run");
         buttonRun.addActionListener(e ->
                 controller.setCommand(id, Command.RUN));
         buttonPanel.add(buttonRun);
 
+        JButton buttonExit = new JButton();
+        buttonExit.setText("exit");
+        buttonExit.addActionListener(e ->
+                controller.setCommand(id, Command.EXIT));
+        buttonPanel.add(buttonExit);
 
-        buttonPanel.validate();
-        panel.add(buttonPanel);
+        panel.add(buttonPanel, BorderLayout.EAST);
     }
 
     public void cleanLogger() {

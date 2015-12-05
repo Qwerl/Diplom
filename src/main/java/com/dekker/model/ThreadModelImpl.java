@@ -48,7 +48,7 @@ public class ThreadModelImpl implements ThreadModel {
 
     public void startThreads() {
         for (int i = 0; i < threadList.size(); i++) {
-            ThreadWrapper thread = threadList.getByKey(i);
+            ThreadWrapper thread = threadList.getById(i);
             if (!thread.isThreadAlive()) {
                 thread.startThread();
             }
