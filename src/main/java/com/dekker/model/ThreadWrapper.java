@@ -6,6 +6,7 @@ import com.dekker.model.resource.Resource;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ThreadWrapper implements Runnable {
 
@@ -13,6 +14,10 @@ public class ThreadWrapper implements Runnable {
 
     public static void clearThreadsCount() {
         threadsCount = 0;
+    }
+
+    public static int getThreadsCount() {
+        return threadsCount;
     }
 
     private final int id;
@@ -25,9 +30,9 @@ public class ThreadWrapper implements Runnable {
     private boolean isWorkWithResource;
     private boolean isWorkDone;
 
-    ThreadModel model;
+    private ThreadModel model;
 
-    List<ThreadObserver> observers = new ArrayList<ThreadObserver>();
+    private List<ThreadObserver> observers = new ArrayList<ThreadObserver>();
 
     private Thread thread = new Thread(this);
     private boolean isWithoutCommands = true;
@@ -161,7 +166,7 @@ public class ThreadWrapper implements Runnable {
     private void waitForCommand() {
         //todo в отдельный класс
         if (isWithoutCommands) {
-            delay(2000 * ThreadWrapper.threadsCount);
+            delay(1000 + new Random().nextInt(2000 * ThreadWrapper.threadsCount));
         } else {
             updateMessage(message.getType(), "работа выполнена, что делать дальше?\n" +
                     "    введите команду run для повторного выполнения работы\n" +
@@ -244,5 +249,9 @@ public class ThreadWrapper implements Runnable {
         for (ThreadObserver observer : observers) {
             observer.updateThreadInfo(message);
         }
+    }
+
+    public void stop() {
+        isWorkDone = true;
     }
 }

@@ -15,7 +15,7 @@ public class ThreadList {
 
     public void add(ThreadWrapper threadWrapper) {
         threads.add(threadWrapper);
-        threadsMap.put(threadsMap.size(), threadWrapper);
+        threadsMap.put(ThreadWrapper.getThreadsCount(), threadWrapper);
         sort();
     }
 
@@ -48,7 +48,7 @@ public class ThreadList {
 
     public void remove(int id) {
         ThreadWrapper thread = getByKey(id);
-
+        thread.stop();
         threads.remove(thread);
         threadsMap.remove(thread);
     }

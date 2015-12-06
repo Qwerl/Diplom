@@ -41,7 +41,7 @@ public class ThreadSwingController implements ThreadController {
      */
     public void researchWithEmptyResource() {
         System.out.println("исследования с пустым ресурсом начать");
-        model.setResource(new EmptyResource(100));
+        model.setResource(new EmptyResource(1000));
         view.createControlPanelView();
     }
 
@@ -94,7 +94,12 @@ public class ThreadSwingController implements ThreadController {
 
     public void addThread(int priority) {
         ThreadWrapper thread = model.addThread(priority);
-        LoggerView logger = view.createLoggerView(thread.getId());
+        LoggerView logger = null;
+        if (model.getMode().equals(Mode.REAL_TIME)) {
+            logger = view.createLoggerView(thread.getId());
+        } else if (model.getMode().equals(Mode.STEP_BY_STEP)){
+            logger = view.createLoggerViewWithStepControl(thread.getId());
+        }
         thread.addObserver(logger);
     }
 

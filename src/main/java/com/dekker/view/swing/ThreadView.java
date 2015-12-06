@@ -8,7 +8,6 @@ import com.dekker.model.Mode;
 import com.dekker.model.ThreadModel;
 import com.dekker.model.resource.ResourceType;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +15,6 @@ import java.util.List;
 public class ThreadView {
     private ThreadModel model;
     private ThreadController controller;
-
-    private Frame mainFrame;
-    private Frame controlFrame;
-    private Frame logerFrame;
-
-    private ModeChoseFrame modeChoseFrame;
-    private ResourceTypeChoseFrame resourceTypeChoseFrame;
-    private BoardTypeAndPortNameChoseFrame boardTypeAndPortNameChoseFrame;
 
     private List<LoggerView> loggers = new ArrayList<>();
 
@@ -38,7 +29,7 @@ public class ThreadView {
      * 2) в реальном времени
      */
     public void createModeChoseView() {
-        modeChoseFrame = new ModeChoseFrame(Mode.values(), this);
+        new ModeChoseFrame(Mode.values(), this);
     }
 
     public void modeSelected(Mode mode) {
@@ -69,10 +60,10 @@ public class ThreadView {
      * 2) ПлатаРесурс
      */
     public void createResourceTypeChoseView() {
-        resourceTypeChoseFrame = new ResourceTypeChoseFrame(ResourceType.values(), this);
+        new ResourceTypeChoseFrame(ResourceType.values(), this);
     }
 
-    public void resourceSelected(ResourceType type) throws Exception {
+    public void resourceSelected(ResourceType type) {
         if (type.equals(ResourceType.EMPTY)) {
             modellingWithoutResourceSelected();
         } else if (type.equals(ResourceType.BOARD)) {
@@ -91,7 +82,7 @@ public class ThreadView {
     /**
      * Выбрать режим с ресурсом
      */
-    public void modellingWithResourceSelected(String portName) throws Exception {
+    public void modellingWithResourceSelected(String portName) {
         controller.researchWithArduinoResource(portName); //todo resource chosing
     }
 
@@ -101,7 +92,7 @@ public class ThreadView {
      * @param boards список устройств
      */
     public void createBoardTypeAndPortNameChoseView(List<Board> boards, List<String> ports) {
-        boardTypeAndPortNameChoseFrame = new BoardTypeAndPortNameChoseFrame();
+        new BoardTypeAndPortNameChoseFrame();
     }
 
     /**
@@ -126,5 +117,11 @@ public class ThreadView {
 
     public void cleanLoggers() {
         loggers.forEach(LoggerView::cleanLogger);
+    }
+
+    public LoggerView createLoggerViewWithStepControl(int threadId) {
+        LoggerView logger = new LoggerViewWithStepControlPanel(controller, threadId);
+        loggers.add(logger);
+        return logger;
     }
 }

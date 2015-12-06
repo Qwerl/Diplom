@@ -38,9 +38,7 @@ public class ResourceTypeChoseFrame {
     }
 
     private void returnResourceType(ResourceType type) {
-        try {
             threadView.resourceSelected(type);
-        } catch (Exception ignore) { /*NOP*/ }
     }
 
 }

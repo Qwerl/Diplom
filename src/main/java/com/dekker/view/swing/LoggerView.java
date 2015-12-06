@@ -1,7 +1,6 @@
 package com.dekker.view.swing;
 
 import com.dekker.controller.ThreadController;
-import com.dekker.model.Command;
 import com.dekker.model.ThreadObserver;
 import com.dekker.model.message.Message;
 
@@ -18,11 +17,11 @@ public class LoggerView implements ThreadObserver {
     private final int width = 380 + 108;
     private final int height = 300;
 
-    private ThreadController controller;
+    protected ThreadController controller;
     private JTextArea textArea;
     private JFrame frame;
     protected JPanel panel;
-    private int id;
+    protected int id;
 
     /**
      * конструктор
@@ -58,69 +57,15 @@ public class LoggerView implements ThreadObserver {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        buttonInit();
-
         frame.add(panel);
         frame.setVisible(true);
-    }
-
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    protected void buttonInit() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(0, 1));
-
-        JButton buttonStart = new JButton();
-        buttonStart.setText("+flag");
-        buttonStart.addActionListener(e -> controller.setCommand(id, Command.START));
-        buttonPanel.add(buttonStart);
-
-        JButton buttonNeedRes = new JButton();
-        buttonNeedRes.setText("needRes");
-        buttonNeedRes.addActionListener(e ->
-                controller.setCommand(id, Command.REQUEST_RESOURCE));
-        buttonPanel.add(buttonNeedRes);
-
-        JButton buttonWork = new JButton();
-        buttonWork.setText("work");
-        buttonWork.addActionListener(e ->
-                controller.setCommand(id, Command.START_WORK));
-        buttonPanel.add(buttonWork);
-
-        JButton buttonEndWork = new JButton();
-        buttonEndWork.setText("end");
-        buttonEndWork.addActionListener(e ->
-                controller.setCommand(id, Command.END_WORK));
-        buttonPanel.add(buttonEndWork);
-
-        JButton buttonExitCriticalZone = new JButton();
-        buttonExitCriticalZone.setText("-flag");
-        buttonExitCriticalZone.addActionListener(e ->
-                controller.setCommand(id, Command.EXIT_FROM_CRITICAL_ZONE));
-        buttonPanel.add(buttonExitCriticalZone);
-
-        JButton buttonRun = new JButton();
-        buttonRun.setText("run");
-        buttonRun.addActionListener(e ->
-                controller.setCommand(id, Command.RUN));
-        buttonPanel.add(buttonRun);
-
-        JButton buttonExit = new JButton();
-        buttonExit.setText("exit");
-        buttonExit.addActionListener(e ->
-                controller.setCommand(id, Command.EXIT));
-        buttonPanel.add(buttonExit);
-
-        panel.add(buttonPanel, BorderLayout.EAST);
     }
 
     public void cleanLogger() {
         textArea.setText(null);
     }
 
-    public void setState(Color color) {
+    private void setState(Color color) {
         textArea.setBackground(color);
     }
 

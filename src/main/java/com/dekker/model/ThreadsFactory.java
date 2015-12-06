@@ -16,6 +16,9 @@ public class ThreadsFactory {
      */
     public ThreadWrapper newThreadStarter(int priority) {
         ThreadWrapper threadWrapper = new ThreadWrapper(model, priority);
+        if (model.getMode().equals(Mode.STEP_BY_STEP)) {
+            threadWrapper.setCommandMode(false);
+        }
         return threadWrapper;
     }
 
