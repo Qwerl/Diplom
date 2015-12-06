@@ -4,9 +4,9 @@ import java.awt.*;
 
 public class Message {
     public static final Color NEUTRAL = Color.WHITE;
-    public static final Color REST = Color.GREEN;          //состояние покоя
-    public static final Color CRITICAL_ZONE = Color.YELLOW;        //нахождение в критической зоне
-    public static final Color WORK_WITH_RESOURCE = Color.RED;   //работа с ресурсом
+    public static final Color REST = new Color(0x8c, 0xc5, 0x40);               //состояние покоя
+    public static final Color CRITICAL_ZONE = new Color(0xfe, 0xf2, 0x00);      //нахождение в критической зоне
+    public static final Color WORK_WITH_RESOURCE = new Color(0xf1, 0x59, 0x2a); //работа с ресурсом
 
     private Color type;
     private String message;
