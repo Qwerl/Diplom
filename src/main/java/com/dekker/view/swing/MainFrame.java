@@ -1,8 +1,6 @@
 package com.dekker.view.swing;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
 
@@ -27,24 +25,16 @@ public class MainFrame extends JFrame {
                 this.getSize().height / 2 - researchByStep.getSize().width / 2,
                 this.getSize().width * 1 / 3 - researchByStep.getSize().height
         );
-        researchByStep.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                threadView.researchByStepSelected();
-            }
-        });
+        researchByStep.addActionListener(e -> threadView.researchByStepSelected());
         this.add(researchByStep);
 
         researchByRealTime = new JButton("Разбор в реальном времени");
         researchByRealTime.setSize(200, 30);
         researchByRealTime.setLocation(
-                this.getSize().width/2 - researchByRealTime.getSize().width/2,
-                this.getSize().height * 2/3 - researchByRealTime.getSize().height
+                this.getSize().width / 2 - researchByRealTime.getSize().width / 2,
+                this.getSize().height * 2 / 3 - researchByRealTime.getSize().height
         );
-        researchByRealTime.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                threadView.researchByRealTimeSelected();
-            }
-        });
+        researchByRealTime.addActionListener(e -> threadView.researchByRealTimeSelected());
         this.add(researchByRealTime);
         setVisible(true);
     }

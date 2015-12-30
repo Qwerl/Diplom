@@ -7,14 +7,15 @@ public class ThreadList {
     //final Set threads = new TreeSet<ThreadStarter>(new ThreadPriorityComparator());
     //final ArrayDeque<ThreadStarter> threadStarterArrayDeque = new ArrayDeque<ThreadStarter>();
     //final PriorityQueue<ThreadStarter> priorityQueue = new PriorityQueue<ThreadStarter>(new ThreadPriorityComparator());
-    private final List<ThreadStarter> threads = new ArrayList<ThreadStarter>();
-    private final HashMap<Integer,ThreadStarter> threadsMap = new HashMap<Integer,ThreadStarter>();
+    private final List<ThreadWrapper> threads = new ArrayList<>();
+    private final HashMap<Integer, ThreadWrapper> threadsMap = new HashMap<Integer, ThreadWrapper>();
 
-    public ThreadList() {}
+    public ThreadList() {
+    }
 
-    public void add(ThreadStarter threadStarter){
-        threads.add(threadStarter);
-        threadsMap.put(threadsMap.size(), threadStarter);
+    public void add(ThreadWrapper threadWrapper) {
+        threads.add(threadWrapper);
+        threadsMap.put(ThreadWrapper.getThreadsCount(), threadWrapper);
         sort();
     }
 
@@ -23,18 +24,32 @@ public class ThreadList {
     }
 
     public void setCommand(int threadId, Command command) {
-        threadsMap.get(threadId).setCommand(command);
+        getByKey(threadId).setCommand(command);
     }
 
-    private void sort(){
+    private void sort() {
         Collections.sort(threads, new ThreadPriorityComparator());
     }
 
-    public void startThread(int threadId) {
-
+    public void startThread(int id) {
+        ThreadWrapper thread = getByKey(id);
+        if (!thread.isThreadAlive()) {
+            thread.startThread();
+        }
     }
 
-    public void get(int id){
+    public ThreadWrapper getByKey(int id) {
+        return threadsMap.get(id);
+    }
 
+    public ThreadWrapper getById(int id) {
+        return threads.get(id);
+    }
+
+    public void remove(int id) {
+        ThreadWrapper thread = getByKey(id);
+        thread.stop();
+        threads.remove(thread);
+        threadsMap.remove(thread);
     }
 }

@@ -2,9 +2,9 @@ package com.dekker.model;
 
 import java.util.Comparator;
 
-public class ThreadPriorityComparator implements Comparator<ThreadStarter> {
+public class ThreadPriorityComparator implements Comparator<ThreadWrapper> {
 
-    public int compare(ThreadStarter threadStarter1, ThreadStarter threadStarter2) {
-        return threadStarter1.getPriority() - threadStarter2.getPriority();
+    public int compare(ThreadWrapper threadWrapper1, ThreadWrapper threadWrapper2) {
+        return threadWrapper1.getPriority() - threadWrapper2.getPriority();
     }
 }

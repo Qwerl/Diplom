@@ -1,11 +1,11 @@
 package com.dekker.controller;
 
-import com.board.Board;
-import com.dekker.model.ThreadModel;
+import com.board.BoardType;
+import com.dekker.model.*;
 import com.dekker.model.resource.ArduinoWithoutLcdResource;
-import com.dekker.model.resource.ArduinoWithoutResource;
 import com.dekker.model.resource.BoardResource;
 import com.dekker.model.resource.EmptyResource;
+import com.dekker.view.swing.LoggerView;
 import com.dekker.view.swing.ThreadView;
 
 public class ThreadSwingController implements ThreadController {
@@ -17,23 +17,22 @@ public class ThreadSwingController implements ThreadController {
         this.model = model;
         view = new ThreadView(this, model);
         view.createModeChoseView();
-        //что-то ещё?
     }
 
     /**
      * Пошаговый разбор
      */
     public void researchByStep() {
-        model.setMode(); //todo создай enum или что получше
-        view.createModellingTypeChoseView();
+        model.setMode(Mode.STEP_BY_STEP);
+        view.createResourceTypeChoseView();
     }
 
     /**
      * Разбор в реальном времени
      */
     public void researchByRealTime() {
-        model.setMode();
-        view.createModellingTypeChoseView();
+        model.setMode(Mode.REAL_TIME);
+        view.createResourceTypeChoseView();
     }
 
     /**
@@ -41,36 +40,82 @@ public class ThreadSwingController implements ThreadController {
      * вместо взаимодействия с ресурсом вставляется определенная задержка
      */
     public void researchWithEmptyResource() {
-        model.setResource(new EmptyResource(100)); //todo вставить пустой ресурс
-        //view.; //todo начать исследования, вызвать форму
+        System.out.println("исследования с пустым ресурсом начать");
+        model.setResource(new EmptyResource(1000));
+        view.createControlPanelView();
     }
 
     /**
      * Режим изучения с ресурсом
      * в качестве ресурса выступает Arduino //todo спустить до Board
      */
-    public void researchWithArduinoResource() {
-        model.setResource(); //todo вставить Arduino ресурс
-        view.createBoardTypeAndPortNameChoseView();  //todo получить список всех поддерживаемых устройств и доступных портов
+    public void researchWithArduinoResource(String portName) {
+        ArduinoWithoutLcdResource arduinoResource = null;
+        try {
+            arduinoResource = new ArduinoWithoutLcdResource(portName);
+        } catch (Exception e) {
+            System.out.println("Не удалось получить ресурс.");
+        }
+        model.setResource(arduinoResource);
+        //view.createBoardTypeAndPortNameChoseView();  //todo получить список всех поддерживаемых устройств и доступных портов
         // todo переименовать
+        view.createControlPanelView();
     }
 
     /**
      * Получить плату, которая будет использоваться для создания ресурса
+     *
      * @param boardType тип устройства
-     * @param portName порт устройства
+     * @param portName  порт устройства
      */
-    public void setBoardInfo(Class boardType, String portName) throws IllegalAccessException, InstantiationException {
+    public void setBoardInfo(BoardType boardType, String portName) {
         BoardResource resource = null; //todo do it
         model.setResource(resource);
     }
 
-    /**
-     * Получить порт, через который подключена плата
-     * @param port
-     */
-    public void setPort(String port) throws Exception {
-        BoardResource resource = new ArduinoWithoutLcdResource(port);
+    public void setCommand(int id, Command command) {
+        model.setCommand(id, command);
     }
 
+    /**
+     * Получить порт, через который подключена плата
+     *
+     * @param port
+     */
+    public void setPort(String port) {
+        BoardResource resource = null;
+        try {
+            resource = new ArduinoWithoutLcdResource(port);//todo снизить до board
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.setResource(resource);
+    }
+
+    public void addThread(int priority) {
+        ThreadWrapper thread = model.addThread(priority);
+        LoggerView logger = null;
+        if (model.getMode().equals(Mode.REAL_TIME)) {
+            logger = view.createLoggerView(thread.getId());
+        } else if (model.getMode().equals(Mode.STEP_BY_STEP)){
+            logger = view.createLoggerViewWithStepControl(thread.getId());
+        }
+        thread.addObserver(logger);
+    }
+
+    public void startAllThreads() {
+        model.startThreads();
+    }
+
+    public void removeThread(int id) {
+        model.removeThread(id);
+    }
+
+    public ThreadList getThreadList() {
+        return model.getThreadList();
+    }
+
+    public void cleanLoggers() {
+        view.cleanLoggers();
+    }
 }
