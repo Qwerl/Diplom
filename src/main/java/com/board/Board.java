@@ -6,7 +6,7 @@ public interface Board {
 
     /**
      * Возвращает:
-     * true если передача возможно
+     * true если передача возможна
      * false если передача невозможна
      */
     boolean isAvailable();
@@ -16,8 +16,4 @@ public interface Board {
      */
     void sendMessage(String message) throws IOException;
 
-    /**
-     * Получить соединение
-     */
-    void getConnection();
 }

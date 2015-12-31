@@ -23,8 +23,4 @@ public class Arduino implements BoardWithLcd {
     public void sendMessage(String message) throws IOException{
         output.write(message.getBytes());
     }
-
-    public void getConnection() {
-        /* ToDo: реализовать */
-    }
 }

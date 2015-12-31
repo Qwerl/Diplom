@@ -2,11 +2,18 @@ package com.dekker.controller;
 
 import com.board.BoardType;
 import com.dekker.model.*;
+import com.dekker.model.resource.ArduinoResource;
 import com.dekker.model.resource.ArduinoWithoutLcdResource;
 import com.dekker.model.resource.BoardResource;
 import com.dekker.model.resource.EmptyResource;
 import com.dekker.view.swing.LoggerView;
 import com.dekker.view.swing.ThreadView;
+import gnu.io.CommPortIdentifier;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.*;
+
+import static com.board.BoardType.*;
 
 public class ThreadSwingController implements ThreadController {
 
@@ -47,19 +54,22 @@ public class ThreadSwingController implements ThreadController {
 
     /**
      * Режим изучения с ресурсом
-     * в качестве ресурса выступает Arduino //todo спустить до Board
+     * в качестве ресурса выступает Board
      */
-    public void researchWithArduinoResource(String portName) {
-        ArduinoWithoutLcdResource arduinoResource = null;
-        try {
-            arduinoResource = new ArduinoWithoutLcdResource(portName);
-        } catch (Exception e) {
-            System.out.println("Не удалось получить ресурс.");
+    public void researchWithBoardResource() {
+        if (model.getResource() == null) {
+            Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
+            List<String> ports = new ArrayList<>();
+            while (portEnum.hasMoreElements()) {
+                CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+                System.out.println("port" + currPortId.getName());
+                ports.add(currPortId.getName());
+            }
+            view.createBoardTypeAndPortNameChoseView(Arrays.asList(BoardType.values()), ports);
+        } else {
+            System.out.println("исследования с ресурсом начать");
+            view.createControlPanelView();
         }
-        model.setResource(arduinoResource);
-        //view.createBoardTypeAndPortNameChoseView();  //todo получить список всех поддерживаемых устройств и доступных портов
-        // todo переименовать
-        view.createControlPanelView();
     }
 
     /**
@@ -69,27 +79,24 @@ public class ThreadSwingController implements ThreadController {
      * @param portName  порт устройства
      */
     public void setBoardInfo(BoardType boardType, String portName) {
-        BoardResource resource = null; //todo do it
+        BoardResource resource = null;
+        try {
+            if (boardType.equals(ARDUINO)) {
+                resource = new ArduinoResource(portName);
+            } else if (boardType.equals(ARDUINO_WITHOUT_LCD)) {
+                resource = new ArduinoWithoutLcdResource(portName);
+            } else if (boardType.equals(RASPBERRY_PI)) {
+                throw new NotImplementedException(); //todo: do then rasp
+            }
+        } catch (Exception e) {
+            System.out.println("Не удалось создать ресурс");
+            e.printStackTrace();
+        }
         model.setResource(resource);
     }
 
     public void setCommand(int id, Command command) {
         model.setCommand(id, command);
-    }
-
-    /**
-     * Получить порт, через который подключена плата
-     *
-     * @param port
-     */
-    public void setPort(String port) {
-        BoardResource resource = null;
-        try {
-            resource = new ArduinoWithoutLcdResource(port);//todo снизить до board
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        model.setResource(resource);
     }
 
     public void addThread(int priority) {
@@ -118,4 +125,5 @@ public class ThreadSwingController implements ThreadController {
     public void cleanLoggers() {
         view.cleanLoggers();
     }
+
 }

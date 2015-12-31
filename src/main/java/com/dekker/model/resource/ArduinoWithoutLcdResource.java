@@ -14,7 +14,7 @@ public class ArduinoWithoutLcdResource implements BoardResource {
     }
 
     private void init(String portName) throws Exception {
-        port = new SerialPortFacade(9600, 1000, portName);
+        port = new SerialPortFacade(portName);
         board = new ArduinoWithoutLcd(port);
     }
 
@@ -45,10 +45,6 @@ public class ArduinoWithoutLcdResource implements BoardResource {
         return port.getPortName();
     }
 
-    public void setPortName(String portName) {
-        //TODO
-    }
-
     public Board getBoard() {
         return board;
     }
@@ -56,4 +52,5 @@ public class ArduinoWithoutLcdResource implements BoardResource {
     public void setBoard(Board board) {
         this.board = (ArduinoWithoutLcd) board;
     }
+
 }

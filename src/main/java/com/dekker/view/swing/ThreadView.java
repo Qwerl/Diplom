@@ -1,6 +1,5 @@
 package com.dekker.view.swing;
 
-import com.board.Board;
 import com.board.BoardType;
 import com.dekker.controller.ThreadController;
 import com.dekker.controller.ThreadSwingController;
@@ -13,6 +12,7 @@ import java.util.List;
 
 
 public class ThreadView {
+
     private ThreadModel model;
     private ThreadController controller;
 
@@ -67,7 +67,7 @@ public class ThreadView {
         if (type.equals(ResourceType.EMPTY)) {
             modellingWithoutResourceSelected();
         } else if (type.equals(ResourceType.BOARD)) {
-            modellingWithResourceSelected("COM3"); //todo получить название порта
+            modellingWithBoardResourceSelected();
         }
     }
 
@@ -82,17 +82,18 @@ public class ThreadView {
     /**
      * Выбрать режим с ресурсом
      */
-    public void modellingWithResourceSelected(String portName) {
-        controller.researchWithArduinoResource(portName); //todo resource chosing
+    public void modellingWithBoardResourceSelected() {
+        controller.researchWithBoardResource();
     }
 
     /**
      * Создать форму с выбором устройства и порта к которому оно подключено
      *
      * @param boards список устройств
+     * @param ports список доступных портов
      */
-    public void createBoardTypeAndPortNameChoseView(List<Board> boards, List<String> ports) {
-        new BoardTypeAndPortNameChoseFrame();
+    public void createBoardTypeAndPortNameChoseView(List<BoardType> boards, List<String> ports) {
+        new BoardTypeAndPortNameChoseFrame(boards, ports, this);
     }
 
     /**
@@ -101,8 +102,9 @@ public class ThreadView {
      * @param boardType тип устройства
      * @param portName  порт устройства
      */
-    public void boardSelected(BoardType boardType, String portName) throws InstantiationException, IllegalAccessException {
+    public void boardSelected(BoardType boardType, String portName) {
         controller.setBoardInfo(boardType, portName);
+        controller.researchWithBoardResource();
     }
 
     public void createControlPanelView() {
@@ -124,4 +126,5 @@ public class ThreadView {
         loggers.add(logger);
         return logger;
     }
+
 }

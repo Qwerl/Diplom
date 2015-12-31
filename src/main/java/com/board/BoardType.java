@@ -1,5 +1,8 @@
 package com.board;
 
 public enum BoardType {
-    ARDUINO, RASPBERRY_PI
+    ARDUINO,
+    ARDUINO_WITHOUT_LCD,
+    RASPBERRY_PI
+    //todo: get names
 }
