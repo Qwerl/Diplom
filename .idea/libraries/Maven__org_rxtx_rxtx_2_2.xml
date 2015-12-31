@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="Maven: org.rxtx:rxtx:2.2">
+    <ANNOTATIONS>
+      <root url="file://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2/rxtx-2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2/rxtx-2.2-javadoc.jar!/" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="file://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2/rxtx-2.2-sources.jar!/" />
+    </SOURCES>
+    <jarDirectory url="file://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2" recursive="false" type="SOURCES" />
+  </library>
+</component>

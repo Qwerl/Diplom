@@ -47,7 +47,4 @@ public class ArduinoWithoutLcd implements BoardWithoutLcd {
         output.write(message.getBytes());
     }
 
-    public void getConnection() {
-        /* ToDo: реализовать */
-    }
 }

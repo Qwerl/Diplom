@@ -3,6 +3,7 @@ package com.dekker.model;
 import java.util.*;
 
 public class ThreadList {
+
     //ToDo: choose the best
     //final Set threads = new TreeSet<ThreadStarter>(new ThreadPriorityComparator());
     //final ArrayDeque<ThreadStarter> threadStarterArrayDeque = new ArrayDeque<ThreadStarter>();
@@ -52,4 +53,5 @@ public class ThreadList {
         threads.remove(thread);
         threadsMap.remove(thread);
     }
+
 }

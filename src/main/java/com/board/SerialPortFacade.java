@@ -8,14 +8,22 @@ import gnu.io.SerialPortEventListener;
 import java.io.*;
 import java.net.ConnectException;
 import java.util.Enumeration;
+import java.util.Observable;
 
-public class SerialPortFacade implements SerialPortEventListener{
+public class SerialPortFacade extends Observable implements SerialPortEventListener {
+
+    public static final int DEFAULT_DATARATE = 9600;
+    public static final int DEFAULT_TIMEOUT = 1000;
 
     private SerialPort serialPort;
     private BufferedReader reader;
 
     private int dataRate;
     private int timeOut;
+
+    public SerialPortFacade(String portName) throws Exception {
+        this(DEFAULT_DATARATE, DEFAULT_TIMEOUT, portName);
+    }
 
     public SerialPortFacade(int dataRate, int timeOut, String portName) throws Exception {
         this.dataRate = dataRate;
@@ -69,8 +77,9 @@ public class SerialPortFacade implements SerialPortEventListener{
         try {
             if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                 String inputLine = reader.readLine();
-                /* ToDo: реализовать принятие данных */
-                System.out.println(inputLine);
+                System.out.println("пришло сообщение с платы: " + inputLine);
+                setChanged();
+                notifyObservers(inputLine);
             }
         }
         catch (Exception ignore) {/*NOP*/}

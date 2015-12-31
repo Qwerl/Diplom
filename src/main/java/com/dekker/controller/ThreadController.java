@@ -8,9 +8,8 @@ public interface ThreadController {
     void researchByStep();
     void researchByRealTime();
     void researchWithEmptyResource();
-    void researchWithArduinoResource(String portName);
+    void researchWithBoardResource();
 
-    void setPort(String port);
     void setBoardInfo(BoardType boardType, String portName);
 
     void setCommand(int id, Command command);
