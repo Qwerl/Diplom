@@ -6,12 +6,16 @@ char inputs   [20];
 char oldInputs[20];
 
 char welcomeMessage [2][17] = {
-  {"  Hello  world  "}, 
+  {"  Hello  world  "},
   {"   azazazaaza   "}
 };
 char endingMessage [2][17] = {
-  {"  ending  work  "}, 
-  {"     goodbye    "}
+  {"  ending  work  "},
+  {"    goodbye!    "}
+};
+char freeMessage [2][17] = {
+  {"    Resource    "},
+  {"    is free.    "}
 };
 
 int BUFFER_SIZE = 8;
@@ -23,7 +27,6 @@ void setup() {
 
 void loop() {
   strcpy(oldInputs, inputs);
-
   if (Serial.available()) {
     lcd.setCursor(0, 0);
     char buff[BUFFER_SIZE];
@@ -34,6 +37,8 @@ void loop() {
     delay(1000);
     if (strstr(buff, "work")) {
       work(buff);
+    } else if (strstr(buff, "free")) {
+      dispose();
     } else if (strstr(buff, "stop")) {
       stopW();
     } else if (strstr(buff, "start")) {
@@ -79,21 +84,42 @@ void stopW() {
 
 void work(char buff[]) {
   lcd.setCursor(0, 0);
-  lcd.print(" Start working. ");
-  lcd.setCursor(0, 1);
   lcd.print("thread #");
-  lcd.setCursor(8, 1);
+  lcd.setCursor(8, 0);
   int i;
   for (i = 4; i < BUFFER_SIZE; i++) {
-    if(isdigit(buff[i])) {
+    if (isdigit(buff[i])) {
       lcd.print(buff[i]);
     } else {
       break;
     }
   }
   for (; i < 17; i++) {
-     lcd.print(" ");
+    lcd.print(" ");
   }
+
+  lcd.setCursor(0, 1);
+  for (i = 0; i <= 10; i++) {
+    lcd.setCursor(0, 1);
+    for (int j = 0; j < i; j++) {
+      lcd.write((uint8_t)0xFF);
+    }
+    lcd.setCursor(10, 1);
+    lcd.print(i*10);
+    lcd.print("%");
+    delay(1000);
+  }
+  lcd.setCursor(0, 1);
+  lcd.print("   Work done.   ");
+  delay(2000);
+  Serial.print("workDone");
+}
+
+void dispose() {
+  lcd.setCursor(0, 0);
+  lcd.print(freeMessage[0]);
+  lcd.setCursor(0, 1);
+  lcd.print(freeMessage[1]);
 }
 
 void defaultOperation() {

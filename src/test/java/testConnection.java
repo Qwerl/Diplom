@@ -1,6 +1,6 @@
-import com.board.Arduino;
-import com.board.Board;
-import com.board.SerialPortFacade;
+import ru.kai.dekker.model.resource.board.Arduino;
+import ru.kai.dekker.model.resource.board.Board;
+import ru.kai.dekker.model.resource.board.SerialPortFacade;
 
 public class testConnection {
 

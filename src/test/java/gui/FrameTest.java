@@ -1,6 +1,6 @@
 package gui;
 
-import com.MVC;
+import ru.kai.MVC;
 
 public class FrameTest {
 
