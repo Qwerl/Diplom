@@ -16,9 +16,7 @@ public class ThreadsFactory {
      */
     public ThreadWrapper newThreadStarter(int priority) {
         ThreadWrapper threadWrapper = new ThreadWrapper(model, priority);
-        if (model.getMode().equals(Mode.STEP_BY_STEP)) {
-            threadWrapper.setCommandMode(false);
-        }
+        threadWrapper.setCommandMode(model.getMode());
         return threadWrapper;
     }
 
@@ -32,7 +30,7 @@ public class ThreadsFactory {
      */
     public ThreadWrapper newThreadStarter(int priority, int x, int y, Mode mode) {
         ThreadWrapper threadWrapper = new ThreadWrapper(model, priority);
-        threadWrapper.setCommandMode(true);
+        threadWrapper.setCommandMode(mode);
         return threadWrapper;
     }
 }

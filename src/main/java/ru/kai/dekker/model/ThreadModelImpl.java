@@ -47,16 +47,10 @@ public class ThreadModelImpl implements ThreadModel {
     }
 
     public void startThreads() {
-        for (int i = 0; i < threadList.size(); i++) {
-            ThreadWrapper thread = threadList.getById(i);
-            if (!thread.isThreadAlive()) {
-                thread.startThread();
-            }
-        }
+        threadList.startAll();
         try {
             Thread.sleep(50);//небольшая пауза, чтоб точно все потоки успели стартовать
         } catch (Exception ignore) {/* NOP */}
-
         System.out.println("model start");
     }
 

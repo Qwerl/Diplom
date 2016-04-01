@@ -54,4 +54,12 @@ public class ThreadList {
         threadsMap.remove(thread);
     }
 
+    public void startAll() {
+        for (ThreadWrapper thread : threads) {
+            if (!thread.isThreadAlive()) {
+                thread.startThread();
+            }
+        }
+    }
+
 }
