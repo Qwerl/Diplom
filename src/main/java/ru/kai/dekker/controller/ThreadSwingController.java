@@ -1,5 +1,7 @@
 package ru.kai.dekker.controller;
 
+import ru.kai.AbstractThreadWrapper;
+import ru.kai.SynchronizationPrimitives;
 import ru.kai.dekker.model.resource.board.BoardType;
 import ru.kai.dekker.model.*;
 import ru.kai.dekker.model.resource.ArduinoResource;
@@ -9,6 +11,7 @@ import ru.kai.dekker.model.resource.EmptyResource;
 import ru.kai.dekker.view.swing.LoggerView;
 import ru.kai.dekker.view.swing.ThreadView;
 import gnu.io.CommPortIdentifier;
+import ru.kai.semaphore.model.SemaphoreThreadWrapper;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -23,6 +26,21 @@ public class ThreadSwingController implements ThreadController {
     public ThreadSwingController(ThreadModel model) {
         this.model = model;
         view = new ThreadView(this, model);
+        view.createPrimitiveChoseView();
+
+    }
+
+    public void dekkerPrimitiveResearch() {
+        model.setPrimitiveType(SynchronizationPrimitives.Dekker);
+        createModeChoseView();
+    }
+
+    public void semaphorePrimitiveResearch() {
+        model.setPrimitiveType(SynchronizationPrimitives.Semaphore);
+        createModeChoseView();
+    }
+
+    public void createModeChoseView() {
         view.createModeChoseView();
     }
 
@@ -99,8 +117,17 @@ public class ThreadSwingController implements ThreadController {
         model.setCommand(id, command);
     }
 
+    public void addThread() {
+        SemaphoreThreadWrapper thread = model.addThread();
+        subscribeLogger(thread);
+    }
+
     public void addThread(int priority) {
-        ThreadWrapper thread = model.addThread(priority);
+        DekkerThreadWrapper thread = model.addThread(priority);
+        subscribeLogger(thread);
+    }
+
+    private void subscribeLogger(AbstractThreadWrapper thread) {
         LoggerView logger = null;
         if (model.getMode().equals(Mode.REAL_TIME)) {
             logger = view.createLoggerView(thread.getId());
@@ -119,11 +146,19 @@ public class ThreadSwingController implements ThreadController {
     }
 
     public ThreadList getThreadList() {
-        return model.getThreadList();
+        return model.getDekkerThreads();
     }
 
     public void cleanLoggers() {
         view.cleanLoggers();
+    }
+
+    public SynchronizationPrimitives getCurrentSynchronizationPrimitive() {
+        return model.getPrimitive();
+    }
+
+    public int getSemaphoreState() {
+        return model.getSemaphore().availablePermits();
     }
 
 }

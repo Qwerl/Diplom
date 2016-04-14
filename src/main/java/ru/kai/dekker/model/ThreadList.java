@@ -1,23 +1,24 @@
 package ru.kai.dekker.model;
 
+import ru.kai.AbstractThreadWrapper;
+
 import java.util.*;
 
-public class ThreadList {
+public class ThreadList<E extends AbstractThreadWrapper> {
 
-    //ToDo: choose the best
-    //final Set threads = new TreeSet<ThreadStarter>(new ThreadPriorityComparator());
-    //final ArrayDeque<ThreadStarter> threadStarterArrayDeque = new ArrayDeque<ThreadStarter>();
-    //final PriorityQueue<ThreadStarter> priorityQueue = new PriorityQueue<ThreadStarter>(new ThreadPriorityComparator());
-    private final List<ThreadWrapper> threads = new ArrayList<>();
-    private final HashMap<Integer, ThreadWrapper> threadsMap = new HashMap<Integer, ThreadWrapper>();
+    private final List<E> threads = new ArrayList<>();
+    private final HashMap<Integer, E> threadsMap = new HashMap<>();
 
     public ThreadList() {
     }
 
-    public void add(ThreadWrapper threadWrapper) {
+    public void add(E threadWrapper) {
         threads.add(threadWrapper);
-        threadsMap.put(ThreadWrapper.getThreadsCount(), threadWrapper);
-        sort();
+        threadsMap.put(AbstractThreadWrapper.getThreadsCount(), threadWrapper);
+        //сортировка требуется только в случае с алгоритмом деккера
+        if (threadWrapper instanceof DekkerThreadWrapper) {
+            sort();
+        }
     }
 
     public int size() {
@@ -29,33 +30,34 @@ public class ThreadList {
     }
 
     private void sort() {
-        Collections.sort(threads, new ThreadPriorityComparator());
+        Collections.sort((List<DekkerThreadWrapper>) threads, new ThreadPriorityComparator());
+        Collections.reverse(threads);
     }
 
     public void startThread(int id) {
-        ThreadWrapper thread = getByKey(id);
+        AbstractThreadWrapper thread = getByKey(id);
         if (!thread.isThreadAlive()) {
             thread.startThread();
         }
     }
 
-    public ThreadWrapper getByKey(int id) {
+    public E getByKey(int id) {
         return threadsMap.get(id);
     }
 
-    public ThreadWrapper getById(int id) {
+    public E getById(int id) {
         return threads.get(id);
     }
 
     public void remove(int id) {
-        ThreadWrapper thread = getByKey(id);
+        E thread = getByKey(id);
         thread.stop();
         threads.remove(thread);
         threadsMap.remove(thread);
     }
 
     public void startAll() {
-        for (ThreadWrapper thread : threads) {
+        for (E thread : threads) {
             if (!thread.isThreadAlive()) {
                 thread.startThread();
             }

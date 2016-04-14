@@ -3,17 +3,11 @@ package ru.kai.dekker.model;
 import ru.kai.AbstractThreadWrapper;
 import ru.kai.dekker.model.message.Message;
 
-public class ThreadWrapper extends AbstractThreadWrapper {
-
-    private static int threadsCount = -1;
-
-    public static int getThreadsCount() {
-        return threadsCount;
-    }
+public class DekkerThreadWrapper extends AbstractThreadWrapper {
 
     private final int priority;
 
-    public ThreadWrapper(ThreadModel model, int priority) {
+    public DekkerThreadWrapper(ThreadModel model, int priority) {
         this.model = model;
         this.priority = priority;
         synchronized (this) {
@@ -46,12 +40,12 @@ public class ThreadWrapper extends AbstractThreadWrapper {
      * @return свободность ресурса
      */
     public boolean checkEmploymentResource() {
-        ThreadList list = model.getThreadList();
+        ThreadList list = model.getDekkerThreads();
         for (int i = 0; i < list.size(); i++) {
-            ThreadWrapper threadWrapper = list.getById(i);
+            DekkerThreadWrapper threadWrapper = (DekkerThreadWrapper)list.getById(i);
             if (threadWrapper.getId() != this.id) {
                 if (threadWrapper.isWorkWithResource()) {
-                    super.updateMessage(message.getType(), "поток № " + threadWrapper.getId() + " уже работает с ресурсом");
+                    updateMessage(message.getType(), "поток № " + threadWrapper.getId() + " уже работает с ресурсом");
                     return false;
                 } else if (threadWrapper.isInCriticalZone()) {
                     updateMessage(message.getType(), "поток № " + threadWrapper.getId() + " тоже находиться в критическом участке");
@@ -73,7 +67,6 @@ public class ThreadWrapper extends AbstractThreadWrapper {
      * выставляет флаг работы с ресурсом
      */
     public void startWorkWithResource() {
-        setWorkWithResource(true);
         updateMessage(Message.WORK_WITH_RESOURCE, "начинаю работать с ресурсом");
     }
 
@@ -100,14 +93,6 @@ public class ThreadWrapper extends AbstractThreadWrapper {
     public void exitFromCriticalZone() {
         setInCriticalZone(false);
         updateMessage(Message.REST, "поток №" + id + " вышел из критической зоны");
-    }
-
-    public void stop() {
-        setWorkDone(true);
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getPriority() {

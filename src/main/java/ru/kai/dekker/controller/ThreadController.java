@@ -1,5 +1,6 @@
 package ru.kai.dekker.controller;
 
+import ru.kai.SynchronizationPrimitives;
 import ru.kai.dekker.model.resource.board.BoardType;
 import ru.kai.dekker.model.Command;
 import ru.kai.dekker.model.ThreadList;
@@ -18,6 +19,8 @@ public interface ThreadController {
 
     void setCommand(int id, Command command);
 
+    void addThread();
+
     void addThread(int priority);
 
     void startAllThreads();
@@ -27,5 +30,13 @@ public interface ThreadController {
     ThreadList getThreadList();
 
     void cleanLoggers();
+
+    void dekkerPrimitiveResearch();
+
+    void semaphorePrimitiveResearch();
+
+    SynchronizationPrimitives getCurrentSynchronizationPrimitive();
+
+    int getSemaphoreState();
 
 }

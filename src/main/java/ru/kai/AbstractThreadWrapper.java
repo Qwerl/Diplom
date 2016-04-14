@@ -13,6 +13,8 @@ import java.util.List;
 
 public abstract class AbstractThreadWrapper implements Runnable {
 
+    protected static int threadsCount = -1;
+
     private boolean isWorkDone = false;
     private boolean inCriticalZone;
     private boolean isWorkWithResource;
@@ -28,6 +30,10 @@ public abstract class AbstractThreadWrapper implements Runnable {
 
     private List<ThreadObserver> observers = new ArrayList<ThreadObserver>();
 
+    public static int getThreadsCount() {
+        return threadsCount;
+    }
+
     public void run() {
         printStartMessage();
         while (!isWorkDone()) {
@@ -37,6 +43,7 @@ public abstract class AbstractThreadWrapper implements Runnable {
             while (!checkEmploymentResource()) {
                 waitForCommand(Command.REQUEST_RESOURCE);
             }
+            setWorkWithResource(true);
             waitForCommand(Command.START_WORK);
             startWorkWithResource();
             doWork();
@@ -46,6 +53,10 @@ public abstract class AbstractThreadWrapper implements Runnable {
             exitFromCriticalZone();
             waitForCommandRunOrExit();
         }
+    }
+
+    public void stop() {
+        setWorkDone(true);
     }
 
     protected abstract void printStartMessage();
@@ -164,4 +175,13 @@ public abstract class AbstractThreadWrapper implements Runnable {
     public void setResource(Resource resource) {
         this.resource = resource;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

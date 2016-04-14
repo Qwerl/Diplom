@@ -1,10 +1,16 @@
 package ru.kai.dekker.model;
 
+import ru.kai.SynchronizationPrimitives;
 import ru.kai.dekker.model.resource.Resource;
+import ru.kai.semaphore.model.SemaphoreThreadWrapper;
+
+import java.util.concurrent.Semaphore;
 
 public interface ThreadModel {
 
-    ThreadWrapper addThread(int priority);
+    DekkerThreadWrapper addThread(int priority);
+
+    SemaphoreThreadWrapper addThread();
 
     void setCommand(int threadId, Command command);
 
@@ -24,6 +30,12 @@ public interface ThreadModel {
 
     void removeThread(int id);
 
-    ThreadList getThreadList();
+    ThreadList getDekkerThreads();
+
+    void setPrimitiveType(SynchronizationPrimitives semaphore);
+
+    SynchronizationPrimitives getPrimitive();
+
+    Semaphore getSemaphore();
 
 }

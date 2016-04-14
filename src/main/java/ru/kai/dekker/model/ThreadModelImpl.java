@@ -1,14 +1,24 @@
 package ru.kai.dekker.model;
 
+import ru.kai.AbstractThreadWrapper;
+import ru.kai.SynchronizationPrimitives;
 import ru.kai.dekker.model.resource.Resource;
+import ru.kai.semaphore.model.SemaphoreThreadWrapper;
+
+import java.util.concurrent.Semaphore;
 
 public class ThreadModelImpl implements ThreadModel {
 
-    private ThreadList threadList = new ThreadList();
+    private ThreadList<DekkerThreadWrapper> dekkerThreads = new ThreadList<>();
+    private ThreadList<SemaphoreThreadWrapper> semaphoreThreads = new ThreadList<>();
     private ThreadsFactory factory = new ThreadsFactory(this);
 
     private Resource resource;
     private Mode mode;
+    private SynchronizationPrimitives primitive;
+
+    int maxConcurrentRequests = 2;
+    public Semaphore semaphore = new Semaphore(maxConcurrentRequests);
 
     public Resource getResource() {
         return resource;
@@ -18,23 +28,40 @@ public class ThreadModelImpl implements ThreadModel {
         this.resource = resource;
     }
 
-    public ThreadWrapper addThread(int priority) {
-        ThreadWrapper newThread = factory.newThreadStarter(priority);
+    public DekkerThreadWrapper addThread(int priority) {
+        DekkerThreadWrapper newThread = factory.newThreadStarter(priority);
         newThread.setResource(resource);
-        threadList.add(newThread);
+        dekkerThreads.add(newThread);
+        return newThread;
+    }
+
+    public SemaphoreThreadWrapper addThread() {
+        SemaphoreThreadWrapper newThread = factory.newThreadStarter();
+        newThread.setResource(resource);
+        semaphoreThreads.add(newThread);
         return newThread;
     }
 
     public void setCommand(int threadId, Command command) {
-        threadList.setCommand(threadId, command);
+        if (primitive.equals(SynchronizationPrimitives.Dekker)) {
+            dekkerThreads.setCommand(threadId, command);
+        } else if (primitive.equals(SynchronizationPrimitives.Semaphore)) {
+            semaphoreThreads.setCommand(threadId, command);
+        }
     }
 
     public void startThread(int threadId) {
-        threadList.startThread(threadId);
+        dekkerThreads.startThread(threadId);
     }
 
     public void addObserver(int id, ThreadObserver observer) {
-        ThreadWrapper thread = threadList.getByKey(id);
+        AbstractThreadWrapper thread = null;
+        if (primitive.equals(SynchronizationPrimitives.Dekker)) {
+            thread = dekkerThreads.getByKey(id);
+        } else if (primitive.equals(SynchronizationPrimitives.Semaphore)) {
+            thread = semaphoreThreads.getByKey(id);
+        }
+        assert thread != null;
         thread.addObserver(observer);
     }
 
@@ -46,20 +73,42 @@ public class ThreadModelImpl implements ThreadModel {
         this.mode = mode;
     }
 
+    public void setPrimitiveType(SynchronizationPrimitives primitive) {
+        this.primitive = primitive;
+    }
+
     public void startThreads() {
-        threadList.startAll();
+        if (primitive.equals(SynchronizationPrimitives.Dekker)) {
+            dekkerThreads.startAll();
+        } else if (primitive.equals(SynchronizationPrimitives.Semaphore)) {
+            semaphoreThreads.startAll();
+        }
         try {
             Thread.sleep(50);//небольшая пауза, чтоб точно все потоки успели стартовать
         } catch (Exception ignore) {/* NOP */}
-        System.out.println("model start");
     }
 
     public void removeThread(int id) {
-        threadList.remove(id);
+        if (primitive.equals(SynchronizationPrimitives.Dekker)) {
+            dekkerThreads.remove(id);
+        } else if (primitive.equals(SynchronizationPrimitives.Semaphore)) {
+            semaphoreThreads.remove(id);
+        }
     }
 
-    public ThreadList getThreadList() {
-        return threadList;
+    public ThreadList getDekkerThreads() {
+        return dekkerThreads;
     }
 
+    public SynchronizationPrimitives getPrimitive() {
+        return primitive;
+    }
+
+    public void setPrimitive(SynchronizationPrimitives primitive) {
+        this.primitive = primitive;
+    }
+
+    public Semaphore getSemaphore() {
+        return semaphore;
+    }
 }

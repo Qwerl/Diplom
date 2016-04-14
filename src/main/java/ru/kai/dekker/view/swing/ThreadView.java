@@ -1,5 +1,6 @@
 package ru.kai.dekker.view.swing;
 
+import ru.kai.SynchronizationPrimitives;
 import ru.kai.dekker.model.resource.board.BoardType;
 import ru.kai.dekker.controller.ThreadController;
 import ru.kai.dekker.controller.ThreadSwingController;
@@ -127,4 +128,15 @@ public class ThreadView {
         return logger;
     }
 
+    public void createPrimitiveChoseView() {
+        new PrimitiveChoseFrame(SynchronizationPrimitives.values(), this);
+    }
+
+    public void primitiveSelected(SynchronizationPrimitives primitive) {
+        if (primitive.equals(SynchronizationPrimitives.Dekker)) {
+            controller.dekkerPrimitiveResearch();
+        } else if (primitive.equals(SynchronizationPrimitives.Semaphore)) {
+            controller.semaphorePrimitiveResearch();
+        }
+    }
 }

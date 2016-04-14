@@ -7,12 +7,7 @@ import java.util.concurrent.Semaphore;
 
 public class SemaphoreThreadWrapper extends AbstractThreadWrapper implements Runnable {
 
-    private static int threadsCount = -1;
-
-    private final int id;
-
-    int maxConcurrentRequests = 2;
-    public Semaphore semaphore = new Semaphore(maxConcurrentRequests); //todo: to controller
+    public Semaphore semaphore;
 
     public SemaphoreThreadWrapper() {
         synchronized (this) {
@@ -37,18 +32,26 @@ public class SemaphoreThreadWrapper extends AbstractThreadWrapper implements Run
                 Message.CRITICAL_ZONE,
                 "поток №" + id + " хочет войти в критическую зону"
         );
-        try {
-            semaphore.acquire();
-        } catch (Exception ignore) {/* NOP */}
     }
 
     @Override
     protected boolean checkEmploymentResource() {
-        return semaphore.availablePermits() > 0;
+        if (semaphore.availablePermits() > 0) {
+            updateMessage(Message.CRITICAL_ZONE,"текущее количество свободных входов" + semaphore.availablePermits() + ", вход разрешен");
+            return true;
+        } else {
+            updateMessage(Message.CRITICAL_ZONE,"текущее количество свободных входов" + semaphore.availablePermits() + ", вход запрещен");
+            return false;
+        }
     }
 
     @Override
     protected void startWorkWithResource() {
+        try {
+            semaphore.acquire();
+        } catch (Exception ignore) {
+            /* NOP */
+        }
         setWorkWithResource(true);
         updateMessage(
                 Message.WORK_WITH_RESOURCE,
@@ -85,4 +88,7 @@ public class SemaphoreThreadWrapper extends AbstractThreadWrapper implements Run
         semaphore.release();
     }
 
+    public void setSemaphore(Semaphore semaphore) {
+        this.semaphore = semaphore;
+    }
 }
