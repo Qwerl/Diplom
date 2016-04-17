@@ -69,6 +69,8 @@ public class ThreadView {
             modellingWithoutResourceSelected();
         } else if (type.equals(ResourceType.BOARD)) {
             modellingWithBoardResourceSelected();
+        } else if (type.equals(ResourceType.FILE)) {
+            modellingWithFileResourceSelected();
         }
     }
 
@@ -85,6 +87,13 @@ public class ThreadView {
      */
     public void modellingWithBoardResourceSelected() {
         controller.researchWithBoardResource();
+    }
+
+    /**
+     * Выбрать режим с ресурсом файлом
+     */
+    public void modellingWithFileResourceSelected() {
+        controller.researchWithFileResource();
     }
 
     /**

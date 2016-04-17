@@ -2,12 +2,9 @@ package ru.kai.dekker.controller;
 
 import ru.kai.AbstractThreadWrapper;
 import ru.kai.SynchronizationPrimitives;
+import ru.kai.dekker.model.resource.*;
 import ru.kai.dekker.model.resource.board.BoardType;
 import ru.kai.dekker.model.*;
-import ru.kai.dekker.model.resource.ArduinoResource;
-import ru.kai.dekker.model.resource.ArduinoWithoutLcdResource;
-import ru.kai.dekker.model.resource.BoardResource;
-import ru.kai.dekker.model.resource.EmptyResource;
 import ru.kai.dekker.view.swing.LoggerView;
 import ru.kai.dekker.view.swing.ThreadView;
 import gnu.io.CommPortIdentifier;
@@ -67,6 +64,12 @@ public class ThreadSwingController implements ThreadController {
     public void researchWithEmptyResource() {
         System.out.println("исследования с пустым ресурсом начать");
         model.setResource(new EmptyResource(1000));
+        view.createControlPanelView();
+    }
+
+    public void researchWithFileResource() {
+        System.out.println("исследования с ресурсом файлом начать");
+        model.setResource(new FileResource());
         view.createControlPanelView();
     }
 

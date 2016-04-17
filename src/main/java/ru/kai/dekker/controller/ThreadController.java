@@ -13,6 +13,8 @@ public interface ThreadController {
 
     void researchWithEmptyResource();
 
+    void researchWithFileResource();
+
     void researchWithBoardResource();
 
     void setBoardInfo(BoardType boardType, String portName);
